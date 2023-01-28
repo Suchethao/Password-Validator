@@ -1,6 +1,43 @@
 import React, { Component, useState } from 'react';
 import './Validator.css';
 
+class PasswordValidator extends React.Component {
+  constructor(props){
+    super (props);
+    this.state = {
+      password:props.password,
+      isValid:true,
+      errorMessage:""
+    };
+  }
+  validatePassword (password) {
+    if (password.length<8) {
+      this.setState({
+        isValid:false,
+        errorMessage: "Password must be at least 8 characters long."
+      });
+    }
+  } else if (!/|d/.test(password)) {
+    this.setState({
+      isValid:false,
+      errorMessage:"Password must contain at lease one Number."
+    });
+  } else {
+    this.setState({
+      isValid:true,
+      errorMessage:""
+    });
+}
+}
+render () {
+  return(
+    <div>
+      <input type="password" onChange={e=>
+      this.validatePassword(e.target.value)}/>
+      {this.state.isValid&&<div{this.state.errorMessage}
+      </div>
+}
+  );
 function Validator() {
 
   const [input, setInput] = useState({
