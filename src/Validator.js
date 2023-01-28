@@ -1,27 +1,56 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-function PasswordValidator(props) {
-  const [password, setPassword] = useState(props.password);
-  const [isValid, setIsValid] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("");
+function PasswordValidator() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
 
-  function validatePassword(password) {
-    if (password.length < 8) {
-      setIsValid(false);
-      setErrorMessage("Password must be at least 8 characters long.");
-    } else if (!/|d/.test(password)) {
-      setIsValid(false);
-      setErrorMessage("Password must contain at least one number.");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (email === "" || password === "" || confirmPassword === "") {
+      setError("All fields are required!");
+    } else if (password !== confirmPassword) {
+      setError("Passwords do not match!");
     } else {
-      setIsValid(true);
-      setErrorMessage("");
+      setError("Valid!");
     }
-  }
+  };
 
   return (
-    <div>
-      <input type="password" onChange={e => validatePassword(e.target.value)} />
-      {isValid && <div>{errorMessage}</div>}
+    <div className="center-container">
+    <form onSubmit={handleSubmit}>
+      <label>
+        Email:
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </label>
+      <br />
+      <label>
+        Password:
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </label>
+      <br />
+      <label>
+        Confirm Password:
+        <input
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+      </label>
+      <br />
+      <button type="submit">Submit</button>
+      <br />
+      {error && <p>{error}</p>}
+    </form>
     </div>
   );
 }
